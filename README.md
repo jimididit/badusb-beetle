@@ -1,7 +1,7 @@
-# **HiLetGo BadUSB Beetle - Windows Keystroke Injection**
+# **HiLetGo BadUSB Beetle - Keystroke Injection - Multi-OS Support**
 
 ## **Overview**
-This project turns the **HiLetgo BadUSB Beetle (ATMEGA32U4)** into a **keystroke injection attack tool**. Includes example payloads like the Windows-specific "Rickroll" that automatically opens and plays a Rickroll video using **PowerShell**. The payload will attempt to play the video in **Microsoft Edge (Kiosk Mode)**, and if Edge is unavailable, it will use **Windows Media Player**.
+This project turns the **HiLetgo BadUSB Beetle (ATMEGA32U4)** into a **multi-OS keystroke injection tool** that can automate commands across **Windows, Linux, and macOS**. The included **Rickroll payload** is just an example of what’s possible. Additional payloads will be added to support various automation and security research tasks.
 
 ## **⚠️ Disclaimer**
 This tool is for **educational and ethical hacking purposes only**. Do not use this on systems you do not own or have explicit permission to test. The misuse of this tool may result in legal consequences.
@@ -11,14 +11,15 @@ This tool is for **educational and ethical hacking purposes only**. Do not use t
 ## **🔧 Requirements**
 - **HiLetgo BadUSB Beetle (ATMEGA32U4)** or any ATMEGA32U4-based board
 - **Arduino-CLI installed**
-- **Windows PC for execution**
-- **USB cable for flashing the board (if applicable)**
+- **Arduino Keyboard Library installed**
+- **A computer running Windows, Linux, or macOS**
+- **USB cable for flashing the board**
 
 ---
 
 ## **🛠️ Installation & Setup**
 ### **Step 1: Install Arduino-CLI**
-Arduino-CLI is required to compile and upload the script to the BadUSB device.
+Arduino-CLI is required to compile and upload scripts to the BadUSB device.
 
 Run the following command to install Arduino-CLI:
 ```bash
@@ -40,7 +41,13 @@ arduino-cli core update-index
 arduino-cli core install arduino:avr
 ```
 
-### **Step 3: Check If Your Board is Detected**
+### **Step 3: Install the Keyboard Library**
+The Keyboard library is required to simulate keystrokes. Install it using:
+```bash
+arduino-cli lib install "Keyboard"
+```
+
+### **Step 4: Check If Your Board is Detected**
 Plug in your HiLetgo BadUSB Beetle and run:
 ```bash
 arduino-cli board list
@@ -53,9 +60,11 @@ Port         Type              Board Name
 
 ---
 
-## **📜 Writing the Rickroll Keystroke Injection Script**
+## **📜 Writing a Keystroke Injection Script**
+The following is an **example Rickroll payload for Windows**. Additional payloads will be added to support different automation use cases.
+
 ### **1️⃣ Create a New Sketch**
-Create a new file called `rickroll.ino` and paste the following script:
+Create a new file called `payload.ino` and paste the following script:
 
 ```cpp
 #include "Keyboard.h"
@@ -105,29 +114,27 @@ void loop() {}
 ### **Step 1: Compile the Script**
 Run the following command to compile the script for the **ATMEGA32U4**:
 ```bash
-arduino-cli compile --fqbn arduino:avr:micro rickroll.ino
+arduino-cli compile --fqbn arduino:avr:micro payload.ino
 ```
 If your board uses the **Leonardo bootloader**, use:
 ```bash
-arduino-cli compile --fqbn arduino:avr:leonardo rickroll.ino
+arduino-cli compile --fqbn arduino:avr:leonardo payload.ino
 ```
 
 ### **Step 2: Upload the Script to the BadUSB Device**
 ```bash
-arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:micro rickroll.ino
+arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:micro payload.ino
 ```
 Replace `/dev/ttyACM0` with the correct port detected earlier.
 
 ---
 
 ## **🚀 Executing the Payload**
-1. **Plug the BadUSB into a Windows PC**.
+1. **Plug the BadUSB into a computer** running Windows, Linux, or macOS.
 2. The script will automatically execute after a **3-second delay**.
-3. It will:
-   - Open **PowerShell**.
-   - Launch **Microsoft Edge in Kiosk Mode** to play the Rickroll.
-   - If Edge isn’t installed, it will attempt to use **Windows Media Player**.
-4. The video should start playing automatically!
+3. The behavior depends on the payload:
+   - The **Rickroll example** will launch and play the video.
+   - Future payloads will support **automated commands, network scripts, or penetration testing tools**.
 
 ---
 
@@ -137,33 +144,30 @@ Replace `/dev/ttyACM0` with the correct port detected earlier.
 - Verify that **Arduino-CLI detects the board** with `arduino-cli board list`.
 - Try increasing the delay (`delay(3000);` to `delay(5000);`) in `setup()`.
 
-### **2. Edge Doesn’t Open in Kiosk Mode**
+### **2. Edge Doesn’t Open in Kiosk Mode (Windows Example)**
 - Ensure **Microsoft Edge is installed** by running:
   ```powershell
   Start-Process msedge.exe
   ```
 - If Edge isn’t installed, the script will automatically fall back to **Windows Media Player**.
 
-### **3. Windows Media Player Doesn't Play the Video**
-- Some Windows installations have **WMP disabled**. Try enabling it:
-  ```powershell
-  Start-Process wmplayer.exe
-  ```
+### **3. Expanding Beyond the Rickroll Payload**
+- New payloads will be added to support **Linux terminal automation**, **macOS scripting**, and **advanced penetration testing workflows**.
+- Stay updated by checking the repository for new releases!
 
 ---
 
 ## **📌 Additional Enhancements**
-- **Make it more stealthy**: Modify PowerShell commands to **hide the terminal**.
-- **Add persistence**: Create a scheduled task that **replays the video on startup**.
-- **Fake error message**: Display a message before the video plays for more fun.
+- **Make it more stealthy**: Modify commands to **hide execution windows**.
+- **Expand payload library**: Add **multi-OS automation scripts**.
+- **User interaction bypass**: Implement logic to detect and manipulate UI elements.
 
 ---
 
 ## **📢 Final Notes**
-This is a **fun and harmless demonstration** of keystroke injection attacks using the **HiLetgo BadUSB Beetle**. It serves as an **educational tool** to understand how keystroke injection works and how Windows automation can be leveraged. Check the repo for additional payloads that work on Linux, MacOS and Windows.
+This repository is designed for **educational purposes**, helping users understand how keystroke injection can be used for **automation and security research**.
 
 For any issues or improvements, feel free to **submit a pull request** or **open an issue** on GitHub.
 
-**🎥 Now go forth and spread the Rickroll!** 🎶😂
-
+**More payloads coming soon!** 🚀
 
