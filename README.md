@@ -63,7 +63,7 @@ Port         Type              Board Name
 ## **📜 Writing a Keystroke Injection Script**
 The following is an **example Rickroll payload for Windows**. Additional payloads will be added to support different automation use cases.
 
-### **1️⃣ Create a New Sketch**
+### ** Create a New Sketch**
 Create a new file called `payload.ino` and paste the following script:
 
 ```cpp
